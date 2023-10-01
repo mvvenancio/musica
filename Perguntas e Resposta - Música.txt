@@ -1,0 +1,72 @@
+Qual das consultas exclui um CD específico?
+
+DELETE FROM CD WHERE Codigo_CD = 2;
+
+Qual das consultas exclui uma gravadora específica?
+
+DELETE FROM GRAVADORA WHERE Codigo_Gravadora = 3;
+
+Qual consulta retorna o nome dos CDs e o nome dos autores que estão no CD com código 1?
+
+SELECT CD.Nome_CD, AUTOR.Nome_Autor
+FROM CD
+INNER JOIN FAIXA ON CD.Codigo_CD = FAIXA.Codigo_CD
+INNER JOIN MUSICA_AUTOR ON FAIXA.Codigo_Musica = MUSICA_AUTOR.Codigo_Musica
+INNER JOIN AUTOR ON MUSICA_AUTOR.Codigo_Autor = AUTOR.Codigo_Autor
+WHERE CD.Codigo_CD = 1;
+
+Qual consulta retorna o nome dos autores e a quantidade de músicas que eles compuseram, ordenados alfabeticamente pelo nome do autor?
+
+SELECT AUTOR.Nome_Autor, COUNT(MUSICA_AUTOR.Codigo_Musica) AS Quantidade_de_Musicas
+FROM AUTOR
+LEFT JOIN MUSICA_AUTOR ON AUTOR.Codigo_Autor = MUSICA_AUTOR.Codigo_Autor
+GROUP BY AUTOR.Nome_Autor
+ORDER BY AUTOR.Nome_Autor;
+
+Qual consulta retorna o nome dos CDs com duração total (soma das durações das músicas) maior que 30 minutos?
+
+SELECT CD.Nome_CD
+FROM CD
+INNER JOIN FAIXA ON CD.Codigo_CD = FAIXA.Codigo_CD
+INNER JOIN MUSICA ON FAIXA.Codigo_Musica = MUSICA.Codigo_Musica
+GROUP BY CD.Nome_CD
+HAVING SUM(MUSICA.Duracao) > 30;
+
+Qual consulta exibe o nome e a duração das músicas com duração superior a 5 minutos (300 segundos)?
+
+SELECT Nome_Musica, Duracao
+FROM MUSICA
+WHERE Duracao > 5.00;
+
+Qual das consultas cria uma VIEW que mostra todos os CDs com vendas superiores a 1000?
+
+CREATE VIEW CDs_Com_Vendas_Acima_De_1000 AS
+SELECT *
+FROM CD
+WHERE vendas > 1000;
+
+Qual consulta retorna a quantidade total de CDs lançados por cada gravadora?
+
+SELECT GRAVADORA.Nome_Gravadora, COUNT(CD.Codigo_CD) AS Quantidade_de_CDs
+FROM GRAVADORA
+LEFT JOIN CD ON GRAVADORA.Codigo_Gravadora = CD.Codigo_Gravadora
+GROUP BY GRAVADORA.Nome_Gravadora;
+
+Qual das consultas atualiza o preço de venda 14.50 de um CD específico código 3?
+
+UPDATE CD
+SET Preco_Venda = 14.50
+WHERE Codigo_CD = 3;
+
+Qual consulta retorna o nome e a duração das músicas com duração entre 3 e 5 minutos?
+
+SELECT Nome_Musica, Duracao
+FROM MUSICA
+WHERE Duracao >= 3.00 AND Duracao <= 5.00;
+
+Qual consulta retorna o nome das gravadoras e a quantidade de CDs lançados por cada uma?
+
+SELECT GRAVADORA.Nome_Gravadora, COUNT(CD.Codigo_CD) AS Quantidade_de_CDs
+FROM GRAVADORA
+LEFT JOIN CD ON GRAVADORA.Codigo_Gravadora = CD.Codigo_Gravadora
+GROUP BY GRAVADORA.Nome_Gravadora;
